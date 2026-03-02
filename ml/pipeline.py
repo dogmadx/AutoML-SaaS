@@ -1,13 +1,23 @@
 import pandas as pd
+import numpy as np
 from math import sqrt
 
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score,
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+)
 
 
 def train_pipeline(dataset_path, target, task_type, options, out_dir) -> dict:
@@ -38,8 +48,9 @@ def train_pipeline(dataset_path, target, task_type, options, out_dir) -> dict:
     # TRAIN/TEST SPLIT DATA
     test_size = options.get("test_size", 0.2)
     random_state = options.get("random_state", 42)
+    stratify = y if task_type == "classification" else None
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state
+        X, y, test_size=test_size, random_state=random_state, stratify=stratify
     )
 
     # SELECT NUMERIC COLUMNS FOR MEDIAN IMPUTATION
@@ -59,7 +70,7 @@ def train_pipeline(dataset_path, target, task_type, options, out_dir) -> dict:
     if task_type == "regression":
         model = LinearRegression()
     elif task_type == "classification":
-        pass
+        model = LogisticRegression(max_iter=10000)
 
     else:
         return {
@@ -139,6 +150,45 @@ def train_pipeline(dataset_path, target, task_type, options, out_dir) -> dict:
                     },
                     "meta": {},
                 },
+            },
+            "error": None,
+        }
+
+    if task_type == "classification":
+        cm = confusion_matrix(y_test, y_pred)
+        # GETTING LABELS
+        class_labels = [str(label) for label in sorted(y.unique().tolist())]
+        return {
+            "status": "ok",
+            "task_type": "classification",
+            "metrics": {
+                "accuracy": accuracy_score(y_test, y_pred),
+                "precision_weighted": precision_score(
+                    y_test, y_pred, average="weighted", zero_division=0
+                ),
+                "recall_weighted": recall_score(
+                    y_test, y_pred, average="weighted", zero_division=0
+                ),
+                "f1_weighted": f1_score(
+                    y_test, y_pred, average="weighted", zero_division=0
+                ),
+            },
+            "plots": {
+                "confusion_matrix": {
+                    "type": "matrix",
+                    "data": {
+                        "matrix": cm.tolist(),
+                    },
+                    "labels": {
+                        "x": "Predicted Class",
+                        "y": "Actual Class",
+                        "title": "Confusion Matrix",
+                    },
+                    "meta": {
+                        "x_tick_labels": class_labels,
+                        "y_tick_labels": class_labels,
+                    },
+                }
             },
             "error": None,
         }

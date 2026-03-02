@@ -23,13 +23,18 @@ python3 -m scripts.run_train
 - dataset: `docs/train.csv`
 - task type: `regression`
 
-## Output
+## Classification run
 
-After a successful run:
-- metrics are printed in console (`mae`, `rmse`, `r2`)
-- plots are saved to `storage/experiments/test_run_artifacts/plots`
-  - `actual_vs_pred.png`
-  - `residuals_hist.png`
-  - `residuals_vs_pred.png`
+Run from repository root:
 
-## Notes
+```bash
+python3 -m scripts.run_classification
+```
+
+- dataset: `docs/train.csv`
+- task type: `classification`
+
+## Outputs
+
+- regression plots: `storage/experiments/test_run_artifacts/plots`
+- classification plots: `storage/experiments/test_classification_artifacts/plots`
