@@ -1,11 +1,28 @@
 spring:
   application:
     name: mediator
+  #settings of postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5435/TheSmileOfYouth
+    username: OsipInSmile
+    password: Kuril_!np0rh0rn7-kiberClaus3
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hibernate.temp.use_jdbc_metadata_defaults: false
+    open-in-view: true
+
 
 #Security
 security:
   jwt:
     secret_key: ${JWT_SECRET:And-dreadfully-distinct-against-the-dark,-a-tall-white-fountain-played}
-    acces_token_expiration: 1000*60*15
-    refresh_token_expiration: 1000*3600*24*7
+    acces_token_expiration: 900000 #1000*60*15
+    refresh_token_expiration: 604800000 #1000*3600*24*7
+
+
 

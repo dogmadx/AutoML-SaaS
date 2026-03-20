@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  pg_db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=TheSmileOfYouth #${SECURITY_DB}
+      - POSTGRES_USER=OsipInSmile #${PSQL_USER}
+      - POSTGRES_PASSWORD=Kuril_!np0rh0rn7-kiberClaus3 #{PSQL_PASS}
+    ports:
+      - "5435:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

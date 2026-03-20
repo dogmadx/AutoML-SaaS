@@ -1,10 +1,10 @@
-package me.osipshmel.security.authentication.entity;
+package me.osipshmel.mediator.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.osipshmel.security.authentication.user_role.Role;
+import me.osipshmel.mediator.security.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     //TODO!
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserStatus status;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
@@ -39,7 +39,7 @@ public class User implements UserDetails {
     //TODO!
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(status.name()));
     }
     @Override
     public boolean isAccountNonLocked(){return true;}

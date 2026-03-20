@@ -1,4 +1,4 @@
-package me.osipshmel.security.config;
+package me.osipshmel.mediator.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

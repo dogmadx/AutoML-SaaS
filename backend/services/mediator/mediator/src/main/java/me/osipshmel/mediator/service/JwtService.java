@@ -1,11 +1,11 @@
-package me.osipshmel.security.authentication.services;
+package me.osipshmel.mediator.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
-import me.osipshmel.security.authentication.entity.User;
-import me.osipshmel.security.authentication.repositories.TokenRepository;
+import me.osipshmel.mediator.repository.entity.User;
+import me.osipshmel.mediator.repository.TokenRepository;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,64 +18,19 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private SecretKey secretKey;
 
     @Value("${security.jwt.acces_token_expiration}")
     private long accessTokenExpiration;
-
     @Value("${security.jwt.refresh_token_expiration}")
     private long refreshTokenExpiration;
+    private final SecretKey secretKey;
     private final TokenRepository tokenRepository;
 
-    public JwtService(TokenRepository tokenRepository) {
+    public JwtService(SecretKey secretKey, TokenRepository tokenRepository){
+        this.secretKey = secretKey;
         this.tokenRepository = tokenRepository;
     }
 
-    public String generateAccessToken(User user) {
-        return generateToken(user, accessTokenExpiration);
-    }
-    public String generateRefreshToken(User user){
-        return generateToken(user, refreshTokenExpiration);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
-        Claims claims = extractAllClaims(token);
-        return resolver.apply(claims);
-    }
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-    private boolean isAccessTokenExpired(String token) {
-        return !extractExpiration(token).before(new Date());
-    }
-    public boolean isValidAccess(String token, UserDetails user) {
-
-        String username = extractUsername(token);
-
-        boolean isValidToken = tokenRepository.findByAccessToken(token)
-                .map(t -> !t.isLoggedOut()).orElse(false);
-
-        return username.equals(user.getUsername())
-                && isAccessTokenExpired(token)
-                && isValidToken;
-    }
-    public boolean isValidRefresh(String token, User user) {
-
-        String username = extractUsername(token);
-
-        boolean isValidRefreshToken = tokenRepository.findByRefreshToken(token)
-                .map(t -> !t.isLoggedOut()).orElse(false);
-
-        return username.equals(user.getUsername())
-                && isAccessTokenExpired(token)
-                && isValidRefreshToken;
-    }
 
     private String generateToken(@NonNull User user, long expiryTime){
         long cur_time = System.currentTimeMillis();
@@ -87,6 +42,14 @@ public class JwtService {
 
         return builder.compact();
     }
+
+    public String generateAccessToken(User user) {
+        return generateToken(user, accessTokenExpiration);
+    }
+    public String generateRefreshToken(User user){
+        return generateToken(user, refreshTokenExpiration);
+    }
+
     private Claims extractAllClaims(String token) {
 
         JwtParserBuilder parser = Jwts.parser();
@@ -95,5 +58,44 @@ public class JwtService {
         return parser.build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public <T> T extractClaim(String token, @NonNull Function<Claims, T> resolver) {
+        Claims claims = extractAllClaims(token);
+        return resolver.apply(claims);
+    }
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+
+    private boolean isAccessTokenExpired(String token) {
+        return !extractExpiration(token).before(new Date());
+    }
+
+    public boolean isValidAccess(String token, @NonNull UserDetails user) {
+
+        String username = extractUsername(token);
+
+        boolean isValidToken = tokenRepository.findByAccessToken(token)
+                .map(t -> !t.isLoggedOut()).orElse(false);
+
+        return username.equals(user.getUsername())
+                && isAccessTokenExpired(token)
+                && isValidToken;
+    }
+    public boolean isValidRefresh(String token, @NonNull User user) {
+
+        String username = extractUsername(token);
+
+        boolean isValidRefreshToken = tokenRepository.findByRefreshToken(token)
+                .map(t -> !t.isLoggedOut()).orElse(false);
+
+        return username.equals(user.getUsername())
+                && isAccessTokenExpired(token)
+                && isValidRefreshToken;
     }
 }

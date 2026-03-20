@@ -1,4 +1,4 @@
-package me.osipshmel.security.authentication.entity;
+package me.osipshmel.mediator.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,9 @@ public class Token {
 
     @Column(name = "is_logged_out")
     private boolean loggedOut;
+
+    @Column(name = "is_revoked")
+    private boolean isRevoked;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
