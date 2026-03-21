@@ -21,4 +21,7 @@ env/
 storage/*
 !storage/.gitkeep
 
+# project trash
+/trash/delete/
+
 .env

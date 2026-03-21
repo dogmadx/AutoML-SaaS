@@ -39,7 +39,7 @@ public class User implements UserDetails {
     //TODO!
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(status.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + status.name()));
     }
     @Override
     public boolean isAccountNonLocked(){return true;}

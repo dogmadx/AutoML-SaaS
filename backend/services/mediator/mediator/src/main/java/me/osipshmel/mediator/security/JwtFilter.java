@@ -33,10 +33,10 @@ public class JwtFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorisation");
+        String authHeader = request.getHeader("Authorization");
         // If it is right authentification request, we check the token,
         // otherwise we'll pass the work on
-        if (authHeader == null || !authHeader.startsWith("Bearer: ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }

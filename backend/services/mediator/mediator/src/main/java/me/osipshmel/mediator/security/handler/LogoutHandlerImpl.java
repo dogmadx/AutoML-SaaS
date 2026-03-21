@@ -25,10 +25,10 @@ public class LogoutHandlerImpl implements LogoutHandler{
             @NonNull HttpServletResponse response,
             @Nullable Authentication authentication) {
 
-        String authHeader = request.getHeader("Authorisation");
+        String authHeader = request.getHeader("Authorization");
         // If it is right authentification request, we check the token,
         // otherwise we'll pass the work on
-        if (authHeader == null || !authHeader.startsWith("Bearer: ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
             return;
         }
 
