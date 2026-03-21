@@ -20,3 +20,5 @@ env/
 # Local artifacts
 storage/*
 !storage/.gitkeep
+
+.env

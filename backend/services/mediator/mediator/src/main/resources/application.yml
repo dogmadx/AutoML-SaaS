@@ -1,11 +1,13 @@
 spring:
   application:
     name: mediator
+  config:
+    import: optional:file:.env[.properties]
   #settings of postgres
   datasource:
-    url: jdbc:postgresql://localhost:5435/TheSmileOfYouth
-    username: OsipInSmile
-    password: Kuril_!np0rh0rn7-kiberClaus3
+    url: jdbc:postgresql://localhost:5435/CoreDb
+    username: ${PSQL_USER}
+    password: ${PSQL_PASS}
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:

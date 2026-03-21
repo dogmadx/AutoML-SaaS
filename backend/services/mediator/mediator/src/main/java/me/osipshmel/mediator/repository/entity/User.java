@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.osipshmel.mediator.security.UserStatus;
+import me.osipshmel.mediator.security.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     //TODO!
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private UserRole status;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;

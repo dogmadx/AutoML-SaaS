@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      - POSTGRES_DB=TheSmileOfYouth #${SECURITY_DB}
-      - POSTGRES_USER=OsipInSmile #${PSQL_USER}
-      - POSTGRES_PASSWORD=Kuril_!np0rh0rn7-kiberClaus3 #{PSQL_PASS}
+      - POSTGRES_DB=${SECURITY_DB}
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_PASSWORD=${PSQL_PASS}
     ports:
       - "5435:5432"
     volumes:

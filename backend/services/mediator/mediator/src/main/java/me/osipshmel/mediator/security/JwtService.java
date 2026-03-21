@@ -1,4 +1,4 @@
-package me.osipshmel.mediator.service;
+package me.osipshmel.mediator.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

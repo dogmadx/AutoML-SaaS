@@ -1,4 +1,4 @@
-package me.osipshmel.mediator.configuration;
+package me.osipshmel.mediator.security.configuration;
 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

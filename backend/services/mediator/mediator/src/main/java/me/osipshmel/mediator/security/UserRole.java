@@ -1,5 +1,5 @@
 package me.osipshmel.mediator.security;
 
-public enum UserStatus {
+public enum UserRole {
     ANONYMOUS, REGISTERED, ADMIN, SERVER
 }
