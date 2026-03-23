@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.osipshmel.mediator.security.UserRole;
+import me.osipshmel.mediator.user.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +22,9 @@ public class User implements UserDetails {
     @Id
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name ="email")
+    @Column(name ="email", unique = true, nullable = false)
     private String email;
     @Column(name ="password")
     private String password;

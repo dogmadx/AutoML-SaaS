@@ -3,7 +3,7 @@ package me.osipshmel.mediator.security.configuration;
 import me.osipshmel.mediator.security.JwtFilter;
 import me.osipshmel.mediator.security.handler.CustomAccessDeniedHandler;
 import me.osipshmel.mediator.security.handler.LogoutHandlerImpl;
-import me.osipshmel.mediator.service.UserService;
+import me.osipshmel.mediator.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

@@ -3,13 +3,13 @@ package me.osipshmel.mediator.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import me.osipshmel.mediator.exception.UserAlreadyExistsException;
+import me.osipshmel.mediator.user.exception.UserAlreadyExistsException;
 import me.osipshmel.mediator.repository.TokenRepository;
 import me.osipshmel.mediator.repository.UserRepository;
 import me.osipshmel.mediator.repository.entity.Token;
 import me.osipshmel.mediator.repository.entity.User;
 import me.osipshmel.mediator.security.JwtService;
-import me.osipshmel.mediator.security.UserRole;
+import me.osipshmel.mediator.user.UserRole;
 import me.osipshmel.mediator.service.Dto.AuthenticationResponseDto;
 import me.osipshmel.mediator.service.Dto.LoginRequestDto;
 import me.osipshmel.mediator.service.Dto.RegistrationRequestDto;
@@ -37,7 +37,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     private final TokenRepository tokenRepository;
-    private final UserService userService;
 
 /*    public AuthenticationService(UserRepository userRepository,
                                  JwtService jwtService,
@@ -53,10 +52,10 @@ public class AuthenticationService {
 
     @Transactional
     public void register(RegistrationRequestDto request){
-
+/*
         if (userRepository.existsByEmail(request.email())) {
             throw new UserAlreadyExistsException("Email '" + request.email() + "' is already registered");
-        }
+        }*/
 
         User user = new User();
 
@@ -77,6 +76,8 @@ public class AuthenticationService {
                     });
         }
 
+        // TODO!
+        //  Think about it.
         //tokenRepository.saveAll(validTokens);
     }
 
@@ -101,6 +102,8 @@ public class AuthenticationService {
                 )
         );
 
+        // TODO!
+        //  на сколько нормально, что этот еблан использует findByUsername а к-й нибудь валидатор?
         User user = userRepository.findByUsername(request.username())
                 .orElseThrow(()-> new UsernameNotFoundException("User not found with username: " + request.username()));
 

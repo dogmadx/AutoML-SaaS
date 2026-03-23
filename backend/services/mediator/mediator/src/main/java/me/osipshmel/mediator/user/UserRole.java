@@ -1,4 +1,4 @@
-package me.osipshmel.mediator.security;
+package me.osipshmel.mediator.user;
 
 public enum UserRole {
     ANONYMOUS, USER, SYSTEM

@@ -3,7 +3,9 @@ package me.osipshmel.mediator.service.Dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import me.osipshmel.mediator.user.validator.UniqueUser.UniqueUser;
 
+@UniqueUser
 public record RegistrationRequestDto(
         @NotBlank(message = "Enter username")
         String username,

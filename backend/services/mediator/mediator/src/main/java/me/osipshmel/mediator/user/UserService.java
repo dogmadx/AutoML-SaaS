@@ -1,4 +1,4 @@
-package me.osipshmel.mediator.service;
+package me.osipshmel.mediator.user;
 
 import me.osipshmel.mediator.repository.UserRepository;
 import org.jspecify.annotations.NonNull;

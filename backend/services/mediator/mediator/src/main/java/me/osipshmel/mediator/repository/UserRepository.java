@@ -11,6 +11,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     //TODO!
     //  на аннотацию вида UniqueUsername перехуячить бы
+
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
 }
