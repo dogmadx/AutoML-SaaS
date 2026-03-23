@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/protected/**").authenticated()
+                        .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/public/**").permitAll()
                         // TODO!
                         // вероятно, через порты нужно будет организовать.

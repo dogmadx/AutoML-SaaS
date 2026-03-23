@@ -31,7 +31,7 @@ public class User implements UserDetails {
 
     //TODO!
     @Enumerated(EnumType.STRING)
-    private UserRole status;
+    private UserRole role;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
@@ -39,7 +39,7 @@ public class User implements UserDetails {
     //TODO!
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + status.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
     @Override
     public boolean isAccountNonLocked(){return true;}

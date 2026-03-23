@@ -72,8 +72,8 @@ public class JwtService {
     }
 
 
-    private boolean isAccessTokenExpired(String token) {
-        return !extractExpiration(token).before(new Date());
+    private boolean isAccessTokenNotExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
     public boolean isValidAccess(String token, @NonNull UserDetails user) {
@@ -84,7 +84,7 @@ public class JwtService {
                 .map(t -> !t.isLoggedOut()).orElse(false);
 
         return username.equals(user.getUsername())
-                && isAccessTokenExpired(token)
+                && isAccessTokenNotExpired(token)
                 && isValidToken;
     }
     public boolean isValidRefresh(String token, @NonNull User user) {
@@ -95,7 +95,7 @@ public class JwtService {
                 .map(t -> !t.isLoggedOut()).orElse(false);
 
         return username.equals(user.getUsername())
-                && isAccessTokenExpired(token)
+                && isAccessTokenNotExpired(token)
                 && isValidRefreshToken;
     }
 }
