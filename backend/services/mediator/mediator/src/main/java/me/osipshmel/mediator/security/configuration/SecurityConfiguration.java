@@ -50,13 +50,13 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/**").authenticated()
-                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/api/v1/user/**").authenticated()
+                        .requestMatchers("/api/v1/public/**", "/error").permitAll()
                         // TODO!
                         // вероятно, через порты нужно будет организовать.
                         // Хотя internal вполне реально ключами подписывать
-                        .requestMatchers("/internal/**").denyAll()
-                        .requestMatchers("/system/**").denyAll()
+                        .requestMatchers("/api/v1/internal/**").denyAll()
+                        .requestMatchers("/api/v1/system/**").denyAll()
                         .anyRequest().denyAll()
                 )
                 .userDetailsService(userService)
@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(log ->{
-                    log.logoutUrl("/api/v1/auth/logout");
+                    log.logoutUrl("/api/v1/public/auth/logout");
                     log.addLogoutHandler(logoutHandler);
                     log.logoutSuccessHandler((request,
                                               response,
