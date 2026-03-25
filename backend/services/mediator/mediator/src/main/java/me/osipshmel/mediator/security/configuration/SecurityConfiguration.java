@@ -47,14 +47,15 @@ public class SecurityConfiguration {
         http
                 // межсайтовые подделки
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session
+                        -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/user/**").authenticated()
                         .requestMatchers("/api/v1/public/**", "/error").permitAll()
                         // TODO!
-                        // вероятно, через порты нужно будет организовать.
-                        // Хотя internal вполне реально ключами подписывать
+                        //  вероятно, через порты нужно будет организовать.
+                        //  Хотя internal вполне реально ключами подписывать
                         .requestMatchers("/api/v1/internal/**").denyAll()
                         .requestMatchers("/api/v1/system/**").denyAll()
                         .anyRequest().denyAll()

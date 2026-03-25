@@ -73,7 +73,7 @@ public class JwtService {
 
 
     private boolean isAccessTokenNotExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        return extractExpiration(token).after(new Date());
     }
 
     public boolean isValidAccess(String token, @NonNull UserDetails user) {
