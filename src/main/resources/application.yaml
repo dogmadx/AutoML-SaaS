@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: data-layer
+
+  spring:
+    autoconfigure:
+      exclude:
+        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+storage:
+  root-path: ./storage-data
