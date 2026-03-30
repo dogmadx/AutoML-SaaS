@@ -18,6 +18,9 @@ public class ArtifactEntity {
     @Id
     private UUID artifactId;
 
+    @Column(nullable = false)
+    private String storageId;
+
     @Column(nullable = false, unique = true)
     private String storageKey;
 
